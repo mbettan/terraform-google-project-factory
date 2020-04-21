@@ -1,4 +1,4 @@
-# Project factory OMERS 00-Setup
+# Project Factory
 
 ## 0. Prerequisite
 
