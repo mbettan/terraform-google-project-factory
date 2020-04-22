@@ -16,7 +16,7 @@
 ```
 export ORG_ID=YOUR_ORG_ID
 export PROJECT_ID=YOUR_PROJECT_ID
-export GCP_ACCOUNT_EMAIL=YOUR_GCP_ACCOUNT_EMAIL
+export GCP_ACCOUNT_EMAIL=<YOUR_GCP_ACCOUNT_EMAIL>
 export SERVICE_ACCOUNT=svc-terraform-sandbox@${PROJECT_ID}.iam.gserviceaccount.com
 ```
 
@@ -44,7 +44,8 @@ gcloud services enable iam.googleapis.com
 
 ### 2.2 IAM roles
 
-You will need add the following IAM policy binding to your project
+You will need add the following IAM policy bindings to your project. This will provide the permissions required to your GCP account.
+
 * **Service Usage Admin** roles/serviceusage.serviceUsageAdmin
 * **Service Account Admin** roles/iam.serviceAccountAdmin
 * **Service Account Key Admin** roles/iam.serviceAccountKeyAdmin
@@ -60,7 +61,7 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="user:${GCP_ACCOUN
 
 ### 2.3 Service Account
 
-Following the [least privilidge principle](https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege), create a separate Service Account to run Terraform with.
+Following the [least privilege principle](https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege), create a separate Service Account to run Terraform with.
 
 #### Create Service Account
 ```
@@ -103,11 +104,15 @@ gcloud iam service-accounts keys create terraform-sandbox.json --iam-account=${S
 
 #### Setup Terraform Credential
 
-Supply the key to Terraform using the environment variable GOOGLE_CLOUD_KEYFILE_JSON, setting the value to the location of the file.
+Supply the key to Terraform using the environment variable GOOGLE_CLOUD_KEYFILE_JSON, setting the value to the location of the file
 ```
 export GOOGLE_CLOUD_KEYFILE_JSON="$(pwd)/terraform-sandbox.json"
 ```
 
+Ensure the key is setup correctly by prompting the key file on the shell
+```
+cat `echo ${GOOGLE_CLOUD_KEYFILE_JSON}`
+```
 
 ## 5. Plan sandbox
 
