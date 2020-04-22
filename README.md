@@ -61,7 +61,7 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="user:${GCP_ACCOUN
 
 ### 2.3 Service Account
 
-Following the [least privilege principle](https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege), create a separate Service Account to run Terraform with.
+Following the [least privilege principle](https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege), create a separate Service Account to run Terraform with. This is an optionnal step, feel free to skip this section, if you would like to use the logged-in account privledge to execute terraform actions.
 
 #### Create Service Account
 ```
