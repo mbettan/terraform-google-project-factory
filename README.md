@@ -92,17 +92,14 @@ gcloud organizations add-iam-policy-binding ${ORG_ID} --member="serviceAccount:$
 gcloud organizations add-iam-policy-binding ${ORG_ID} --member="serviceAccount:${SERVICE_ACCOUNT}" --role="roles/billing.user"
 ```
 
-## 4. Prepare Terraform Credential
-
-
-#### Service Account key
+#### Service Account key creation
 
 Create and download a service account key for Terraform
 ```
 gcloud iam service-accounts keys create terraform-sandbox.json --iam-account=${SERVICE_ACCOUNT}
 ```
 
-#### Setup Terraform Credential
+#### Service Account usage
 
 Supply the key to Terraform using the environment variable GOOGLE_CLOUD_KEYFILE_JSON, setting the value to the location of the file
 ```
@@ -114,31 +111,47 @@ Ensure the key is setup correctly by prompting the key file on the shell
 cat `echo ${GOOGLE_CLOUD_KEYFILE_JSON}`
 ```
 
-## 5. Plan sandbox
+## 4. Plan sandbox project
 
 ```
-cd terraform-google-project-factory/examples/fabric_project
+cd examples/fabric_project
 terraform init
 terraform plan -out=plan.out
 ```
 
-## 6. Deploy sandbox
+## 5. Deploy sandbox project
 
 ## Inputs
 
+[Input variables](https://learn.hashicorp.com/terraform/getting-started/variables) serve as parameters for a Terraform module, allowing aspects of the module to be customized without altering the module's own source code, and allowing modules to be shared between different configurations. There are several ways to parametrize inputs: interactive, command-line flags and from a file.
+
+### Inputs definition
+
 | Name | Description | Type | Default | Required | Example |
 |------|-------------|:----:|:-----:|:-----:|-------------|
-| billing\_account | Billing account id. | string | n/a | yes | 123123123 |
+| billing\_account | Billing account id. | string | n/a | yes | 11X1XX-1X1111-1X1XXX |
 | name | Project name, joined with prefix. | string | `"fabric-project"` | yes | `"sandbox-project"` |
-| owners | Optional list of IAM-format members to set as project owners. | list(string) | `<list>` | yes | ["user:seb@seb.com"] |
-| parent | Organization or folder id, in the `organizations/nnn` or `folders/nnn` format. | string | n/a | yes | organizations/seb.com | 
+| owners | Optional list of IAM-format members to set as project owners. | list(string) | `<list>` | yes | ["user:username@domain.com"] |
+| parent | nnn is an Organization or folder identifer, in the `organizations/nnn` or `folders/nnn` format. | string | n/a | yes | organizations/111111111111 | 
 | prefix | Prefix prepended to project name, uses random id by default. | string | `""` | no | sandbox
 
+### Parametrize from a variable file
+
+Populate following mandatory variable values in a new terraform.tfvars in fabric_project
+
+```
+billing_account = "11X1XX-1X1111-1X1XXX"
+name = "sandbox-project"
+owners = ["user:username@domain.com"]
+parent = "organizations/111111111111"
+```
+
+## Apply sandbox project
 ```
 terraform apply
 ```
 
-## 7. Delete sandbox
+## 7. Delete sandbox project
 
 ```
 terraform destroy
