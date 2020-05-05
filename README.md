@@ -30,7 +30,7 @@ echo "Organization: ${ORG_ID}"
 
 **03 - Clone git repository**
 ```
-git clone https://github.com/siiiiiiiid/terraform-google-project-factory
+git clone https://github.com/mbettan/terraform-google-project-factory.git
 ```
 
 ## 2. Prepare you  GCP Project
