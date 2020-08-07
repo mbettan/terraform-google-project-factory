@@ -148,7 +148,7 @@ parent = "organizations/111111111111"
 
 ## Apply sandbox project
 ```
-terraform apply
+terraform apply "plan.out"
 ```
 
 ## 7. Delete sandbox project
